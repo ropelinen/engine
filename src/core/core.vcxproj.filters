@@ -16,6 +16,9 @@
     <ClInclude Include="config\disables_msvc.h">
       <Filter>Source Files\config</Filter>
     </ClInclude>
+    <ClInclude Include="config\build_info.h">
+      <Filter>Source Files\config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="config\precompiled.cpp">
