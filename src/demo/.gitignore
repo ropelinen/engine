@@ -1,2 +1,4 @@
 *.VC.db
 /.vs/
+*.VC.VC.opendb
+*.vcxproj.user
