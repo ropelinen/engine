@@ -1,5 +1,5 @@
-#ifndef DEA_BUILD_INFO_H
-#define DEA_BUILD_INFO_H
+#ifndef DEA_CORE_BUILD_INFO_H
+#define DEA_CORE_BUILD_INFO_H
 
 /* A bunch of defines based on the current build configuration and platform */
 
@@ -25,4 +25,4 @@
 #error "Build configuration not defined"
 #endif
 
-#endif // DEA_BUILD_INFO_H
+#endif // DEA_CORE_BUILD_INFO_H

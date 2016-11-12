@@ -1,5 +1,5 @@
-#ifndef DEA_CONFIG_H
-#define DEA_CONFIG_H
+#ifndef DEA_CORE_CONFIG_H
+#define DEA_CORE_CONFIG_H
 
 /* Generic defines */
 
@@ -7,4 +7,4 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#endif // DEA_CONFIG_H
+#endif // DEA_CORE_CONFIG_H
