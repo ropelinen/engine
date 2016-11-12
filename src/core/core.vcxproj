@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\build_info.h" />
+    <ClInclude Include="config\config.h" />
     <ClInclude Include="config\disables_msvc.h" />
     <ClInclude Include="config\precompiled.h" />
   </ItemGroup>
