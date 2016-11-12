@@ -2,3 +2,4 @@
 /.vs/
 *.VC.VC.opendb
 *.vcxproj.user
+/ipch/
