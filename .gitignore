@@ -32,3 +32,4 @@
 *.dSYM/
 /lib/
 /obj/
+/bin/
