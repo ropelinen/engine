@@ -1,5 +1,6 @@
 #ifndef DEA_CORE_DISABLES_MSVC_H
 #define DEA_CORE_DISABLES_MSVC_H
+
 /* Disable useless warnings */
 #if defined(_MSC_VER)
 	#pragma warning(disable : 4115) /* named type definition in parentheses */
@@ -9,4 +10,5 @@
 	#pragma warning(disable : 4711) /* function selected for automatic inline expansion */
 	#pragma warning(disable : 4820) /* x bytes padding added after data member */
 #endif // _MSC_VER
+
 #endif // DEA__CORE_DISABLES_MSVC_H
