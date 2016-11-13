@@ -4,5 +4,6 @@
 #include "core/config/build_info.h"
 #include "core/config/config.h"
 #include "core/config/disables_msvc.h"
+#include "core/types/int_types.h"
 
 #endif // DEA_CORE_PRECOMPILED_H
