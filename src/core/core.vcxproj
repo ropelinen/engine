@@ -31,6 +31,7 @@
     <ClInclude Include="config\config.h" />
     <ClInclude Include="config\disables_msvc.h" />
     <ClInclude Include="config\precompiled.h" />
+    <ClInclude Include="types\int_types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="config\precompiled.cpp">
