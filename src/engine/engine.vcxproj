@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="config\config.h" />
     <ClInclude Include="config\precompiled.h" />
+    <ClInclude Include="system\system.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="config\precompiled.cpp">
@@ -39,6 +40,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Production|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="system\system_windows.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B0529191-D729-4652-89A6-DFE7421210E7}</ProjectGuid>

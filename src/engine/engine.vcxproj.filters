@@ -8,6 +8,9 @@
     <Filter Include="Source Files\config">
       <UniqueIdentifier>{94a4c363-5847-49a6-b572-562bbd424940}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\system">
+      <UniqueIdentifier>{cfa7dc66-c800-49db-a32c-4fbe42f80147}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\precompiled.h">
@@ -16,10 +19,16 @@
     <ClInclude Include="config\config.h">
       <Filter>Source Files\config</Filter>
     </ClInclude>
+    <ClInclude Include="system\system.h">
+      <Filter>Source Files\system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="config\precompiled.cpp">
       <Filter>Source Files\config</Filter>
+    </ClCompile>
+    <ClCompile Include="system\system_windows.cpp">
+      <Filter>Source Files\system</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
