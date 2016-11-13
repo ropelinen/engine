@@ -4,6 +4,8 @@
 /* A bunch of defines based on the current build configuration and platform */
 
 /* Platform defines 0x2 - 0x20 */
+#define DEA_PLATFORM_WINDOWS 0x2
+
 #if defined (_WIN32) || defined(_WIN64)
 #define DEA_PLATFORM DEA_PLATFORM_WINDOWS
 #else
