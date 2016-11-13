@@ -27,6 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config\config.h" />
     <ClInclude Include="config\precompiled.h" />
   </ItemGroup>
   <ItemGroup>
