@@ -4,12 +4,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "demo", "demo.vcxproj", "{C27AD8FA-E6B4-412C-B93E-88ECC9C1BA0A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7C501605-CB02-41E8-9ECD-698AEB7B7E8C} = {7C501605-CB02-41E8-9ECD-698AEB7B7E8C}
+		{095DEB2E-A178-405D-8A00-20777556B57F} = {095DEB2E-A178-405D-8A00-20777556B57F}
+		{B0529191-D729-4652-89A6-DFE7421210E7} = {B0529191-D729-4652-89A6-DFE7421210E7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core", "..\core\core.vcxproj", "{095DEB2E-A178-405D-8A00-20777556B57F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine", "..\engine\engine.vcxproj", "{B0529191-D729-4652-89A6-DFE7421210E7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{095DEB2E-A178-405D-8A00-20777556B57F} = {095DEB2E-A178-405D-8A00-20777556B57F}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "editor", "..\editor\editor.vcxproj", "{7C501605-CB02-41E8-9ECD-698AEB7B7E8C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{095DEB2E-A178-405D-8A00-20777556B57F} = {095DEB2E-A178-405D-8A00-20777556B57F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
