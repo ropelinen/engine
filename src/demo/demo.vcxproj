@@ -158,7 +158,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>core/$(Configuration)/core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>core/$(Configuration)/core.lib;engine/$(Configuration)/engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -178,7 +178,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName)_x64.pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>core/$(Configuration)/core_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>core/$(Configuration)/core_x64.lib;engine/$(Configuration)/engine_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -202,7 +202,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>core/$(Configuration)/core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>core/$(Configuration)/core.lib;engine/$(Configuration)/engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'">
@@ -226,7 +226,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>core/$(Configuration)/core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>core/$(Configuration)/core.lib;engine/$(Configuration)/engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -251,7 +251,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName)_x64.pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>core/$(Configuration)/core_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>core/$(Configuration)/core_x64.lib;engine/$(Configuration)/engine_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
@@ -276,7 +276,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName)_x64.pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>core/$(Configuration)/core_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>core/$(Configuration)/core_x64.lib;engine/$(Configuration)/engine_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
