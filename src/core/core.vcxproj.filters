@@ -11,6 +11,9 @@
     <Filter Include="Source Files\types">
       <UniqueIdentifier>{295c42a3-bf4e-49f1-86ad-d0734b074561}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\system">
+      <UniqueIdentifier>{213d720f-f371-4ffa-a687-5066d54d5246}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\precompiled.h">
@@ -27,6 +30,9 @@
     </ClInclude>
     <ClInclude Include="types\int_types.h">
       <Filter>Source Files\types</Filter>
+    </ClInclude>
+    <ClInclude Include="system\assert.h">
+      <Filter>Source Files\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
