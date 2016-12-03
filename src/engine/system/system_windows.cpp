@@ -3,10 +3,178 @@
 #if (DEA_PLATFORM == DEA_PLATFORM_WINDOWS)
 #include "engine/system/system.h"
 
+#include <Windows.h>
+
 DEA_START()
 
-void create_window()
+struct window_platform
 {
+	HWND hwnd;
+	LPCWSTR name;
+};
+
+void error_popup(const char *msg, const bool kill_program)
+{
+	dea_assert(msg && "error_popup: msg is NULL");
+
+	MessageBoxA(NULL, msg, kill_program ? "Fatal Error" : "Error", MB_OK | MB_ICONERROR);
+	if (kill_program)
+		ExitProcess(~(UINT)0);
+}
+
+/* Super tempy message handler */
+LRESULT CALLBACK wnd_proc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
+{
+	/* Unused parametres, can't get rid of these */
+	(void *)hwnd;
+	(void *)wparam;
+	(void *)lparam;
+
+	switch (umessage)
+	{
+		case WM_DESTROY:
+		{
+			PostQuitMessage(0);
+			return 0;
+		}
+		case WM_CLOSE:
+		{
+			PostQuitMessage(0);
+			return 0;
+		}
+		default:
+		{
+			return DefWindowProc(hwnd, umessage, wparam, lparam);
+		}
+	}
+}
+
+void create_window(const uint width, const uint height, const float pos_x, const float pos_y, const wchar_t *name, const bool fullscreen, window &out_wnd)
+{
+	int position_x = 0;
+	int position_y = 0;
+
+	HINSTANCE hinstance = GetModuleHandle(NULL);
+
+	out_wnd.wnd = new window_platform;
+	out_wnd.wnd->hwnd = NULL;
+	out_wnd.wnd->name = name;
+	out_wnd.width = width;
+	out_wnd.height = height;
+
+	/* Setup the windows class with default settings */
+	WNDCLASSEX wc;
+	memset(&wc, 0, sizeof(wc));
+	wc.cbSize = sizeof(wc);
+	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+	wc.lpfnWndProc = wnd_proc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hinstance;
+	wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+	wc.hIconSm = wc.hIcon;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = name;
+
+	// Register the window class.
+	if (RegisterClassEx(&wc) == 0)
+	{
+		error_popup("Failed to register window class", true);
+	}
+
+	if (!fullscreen)
+	{
+		position_x = (int)((GetSystemMetrics(SM_CXSCREEN) - width) * pos_x);
+		position_y = (int)((GetSystemMetrics(SM_CYSCREEN) - height) * pos_y);
+	}
+	else
+	{
+		DEVMODE screen_settings;
+		memset(&screen_settings, 0, sizeof(screen_settings));
+		screen_settings.dmSize = sizeof(screen_settings);
+		screen_settings.dmPelsHeight = (unsigned long)height;
+		screen_settings.dmPelsWidth = (unsigned long)width;
+		screen_settings.dmBitsPerPel = 32;
+		screen_settings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+
+		ChangeDisplaySettings(&screen_settings, CDS_FULLSCREEN);
+	}
+
+	DWORD style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	DWORD exStyle = 0;
+
+	// Create the window with the screen settings and get the handle to it.
+	out_wnd.wnd->hwnd = CreateWindowEx(exStyle,
+	                                  name,
+	                                  name,
+	                                  style,
+	                                  position_x, position_y, 
+	                                  (int)width, (int)height, 
+	                                  NULL, 
+	                                  NULL, 
+	                                  hinstance, 
+	                                  NULL);
+
+	if (out_wnd.wnd->hwnd == NULL)
+	{
+		error_popup("Failed to create a window", true);
+	}
+
+	ShowWindow(out_wnd.wnd->hwnd, SW_SHOW);
+}
+
+void destroy_window(window &wnd, const bool fullscreen)
+{
+	dea_assert(wnd.wnd && "destroy_window: Platform specific window pointer is NULL");
+
+	if (fullscreen)
+	{
+		ChangeDisplaySettings(NULL, 0);
+	}
+
+	DestroyWindow(wnd.wnd->hwnd);
+	wnd.wnd->hwnd = NULL;
+
+	HINSTANCE hinstance = GetModuleHandle(NULL);
+	UnregisterClass(wnd.wnd->name, hinstance);
+	hinstance = NULL;
+
+	delete wnd.wnd;
+}
+
+void focus_window(window &wnd)
+{
+	dea_assert(wnd.wnd && wnd.wnd->hwnd);
+	SetForegroundWindow(wnd.wnd->hwnd);
+	SetFocus(wnd.wnd->hwnd);
+}
+
+void run()
+{
+	MSG msg;
+	ZeroMemory(&msg, sizeof(MSG));
+
+	bool running = true;
+	while (running)
+	{
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		if (msg.message == WM_QUIT)
+		{
+			/* Closing any window will kill this, not good */
+			running = false;
+		}
+		else
+		{
+			/* Run frame */	
+		}
+	}
 }
 
 DEA_END()
