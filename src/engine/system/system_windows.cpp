@@ -56,6 +56,7 @@ void create_window(const uint width, const uint height, const float pos_x, const
 
 	HINSTANCE hinstance = GetModuleHandle(NULL);
 
+	/* TODO: Memory manager */
 	out_wnd.wnd = new window_platform;
 	out_wnd.wnd->hwnd = NULL;
 	out_wnd.wnd->name = name;
@@ -141,6 +142,7 @@ void destroy_window(window &wnd, const bool fullscreen)
 	UnregisterClass(wnd.wnd->name, hinstance);
 	hinstance = NULL;
 
+	/* TODO: Memory manager */
 	delete wnd.wnd;
 }
 
