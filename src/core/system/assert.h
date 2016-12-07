@@ -5,12 +5,14 @@
 
 #if (DEA_ASSERT_ENABLED == DEA_FALSE)
 #define dea_assert(condition) ((void)0)
+#define dea_static_assert(condition) ((void)0)
 #elif (DEA_ASSERT_ENABLED == DEA_TRUE)
 	#if (DEA_PLATFORM == DEA_PLATFORM_WINDOWS)
 	/* Just use the default assert for now,
 	 * Easier to add funtionality later if I'm already using my own assert. */
 	#include <assert.h>
 	#define dea_assert(condition) assert(condition)
+	#define dea_static_assert(condition) static_assert(condition)
 	#else
 	#error dea_assert not defined for current platform
 	#endif
