@@ -22,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "editor", "..\editor\editor.
 		{095DEB2E-A178-405D-8A00-20777556B57F} = {095DEB2E-A178-405D-8A00-20777556B57F}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "..\tests\tests.vcxproj", "{E6235D12-A970-4C91-A573-3158258A3F99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -80,6 +82,18 @@ Global
 		{7C501605-CB02-41E8-9ECD-698AEB7B7E8C}.Release|x64.Build.0 = Release|x64
 		{7C501605-CB02-41E8-9ECD-698AEB7B7E8C}.Release|x86.ActiveCfg = Release|Win32
 		{7C501605-CB02-41E8-9ECD-698AEB7B7E8C}.Release|x86.Build.0 = Release|Win32
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Debug|x64.ActiveCfg = Debug|x64
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Debug|x64.Build.0 = Debug|x64
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Debug|x86.ActiveCfg = Debug|Win32
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Debug|x86.Build.0 = Debug|Win32
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Production|x64.ActiveCfg = Production|x64
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Production|x64.Build.0 = Production|x64
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Production|x86.ActiveCfg = Production|Win32
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Production|x86.Build.0 = Production|Win32
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Release|x64.ActiveCfg = Release|x64
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Release|x64.Build.0 = Release|x64
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Release|x86.ActiveCfg = Release|Win32
+		{E6235D12-A970-4C91-A573-3158258A3F99}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
