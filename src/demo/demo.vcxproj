@@ -102,7 +102,7 @@
     <OutDir>$(SolutionDir)..\..\bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(PlatformTarget)\$(ProjectName)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)..\;$(IncludePath)</IncludePath>
-    <LibraryPath>G:\Programming\Projects\C++ projects\engine\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -110,21 +110,21 @@
     <IntDir>$(SolutionDir)..\..\obj\$(PlatformTarget)\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_x64</TargetName>
     <IncludePath>$(SolutionDir)..\;$(IncludePath)</IncludePath>
-    <LibraryPath>G:\Programming\Projects\C++ projects\engine\lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(SolutionDir)..\..\obj\$(PlatformTarget)\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\..\bin\$(Configuration)\</OutDir>
     <IncludePath>$(SolutionDir)..\;$(IncludePath)</IncludePath>
-    <LibraryPath>G:\Programming\Projects\C++ projects\engine\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(SolutionDir)..\..\obj\$(PlatformTarget)\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\..\bin\$(Configuration)\</OutDir>
     <IncludePath>$(SolutionDir)..\;$(IncludePath)</IncludePath>
-    <LibraryPath>G:\Programming\Projects\C++ projects\engine\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -132,7 +132,7 @@
     <OutDir>$(SolutionDir)..\..\bin\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_x64</TargetName>
     <IncludePath>$(SolutionDir)..\;$(IncludePath)</IncludePath>
-    <LibraryPath>G:\Programming\Projects\C++ projects\engine\lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -140,7 +140,7 @@
     <OutDir>$(SolutionDir)..\..\bin\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_x64</TargetName>
     <IncludePath>$(SolutionDir)..\;$(IncludePath)</IncludePath>
-    <LibraryPath>G:\Programming\Projects\C++ projects\engine\lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -154,6 +154,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeaderFile>demo/system/precompiled.h</PrecompiledHeaderFile>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -173,6 +174,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeaderFile>demo/system/precompiled.h</PrecompiledHeaderFile>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -196,6 +198,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeaderFile>demo/system/precompiled.h</PrecompiledHeaderFile>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -220,6 +223,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeaderFile>demo/system/precompiled.h</PrecompiledHeaderFile>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -244,6 +248,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeaderFile>demo/system/precompiled.h</PrecompiledHeaderFile>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -269,6 +274,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeaderFile>demo/system/precompiled.h</PrecompiledHeaderFile>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
