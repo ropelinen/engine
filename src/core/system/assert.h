@@ -15,7 +15,7 @@
 	#include <assert.h>
 	#include <type_traits>
 	#define dea_assert(condition) assert(condition)
-	#define dea_static_assert(condition) static_assert(condition)
+	#define dea_static_assert(condition) static_assert(condition, "Static: "#condition)
 	#define dea_is_pod_assert(type) dea_static_assert(std::is_trivially_copyable<type>::value)
 	#define dea_is_not_pod_assert(type) dea_static_assert(!std::is_trivially_copyable<type>::value)
 	#else
