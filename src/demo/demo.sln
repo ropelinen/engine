@@ -23,6 +23,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "editor", "..\editor\editor.
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "..\tests\tests.vcxproj", "{E6235D12-A970-4C91-A573-3158258A3F99}"
+	ProjectSection(ProjectDependencies) = postProject
+		{095DEB2E-A178-405D-8A00-20777556B57F} = {095DEB2E-A178-405D-8A00-20777556B57F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
