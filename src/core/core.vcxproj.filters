@@ -14,6 +14,9 @@
     <Filter Include="Source Files\system">
       <UniqueIdentifier>{213d720f-f371-4ffa-a687-5066d54d5246}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\container">
+      <UniqueIdentifier>{7ee23e5f-2773-4317-a801-c4242cb65474}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\precompiled.h">
@@ -34,10 +37,33 @@
     <ClInclude Include="system\assert.h">
       <Filter>Source Files\system</Filter>
     </ClInclude>
+    <ClInclude Include="container\vector.h">
+      <Filter>Source Files\container</Filter>
+    </ClInclude>
+    <ClInclude Include="container\byte_array.h">
+      <Filter>Source Files\container</Filter>
+    </ClInclude>
+    <ClInclude Include="container\pod_vector.h">
+      <Filter>Source Files\container</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="config\precompiled.cpp">
       <Filter>Source Files\config</Filter>
     </ClCompile>
+    <ClCompile Include="container\vector.cpp">
+      <Filter>Source Files\container</Filter>
+    </ClCompile>
+    <ClCompile Include="container\byte_array.cpp">
+      <Filter>Source Files\container</Filter>
+    </ClCompile>
+    <ClCompile Include="container\pod_vector.cpp">
+      <Filter>Source Files\container</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="container\vector.inl">
+      <Filter>Source Files\container</Filter>
+    </None>
   </ItemGroup>
 </Project>
