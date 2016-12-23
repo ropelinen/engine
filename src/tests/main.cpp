@@ -1,7 +1,6 @@
 #include "tests/config/precompiled.h"
 
 #include <stdlib.h>
-#include <vld.h>
 
 #include "tests/tests/vector_tests.h"
 
