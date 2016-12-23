@@ -16,6 +16,9 @@
     <Filter Include="Source Files\config">
       <UniqueIdentifier>{fd43be7a-2ded-4cf4-9a55-2cb4faec651b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\tests">
+      <UniqueIdentifier>{30cdb6a0-5151-4960-a999-7e0cf192d98c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,9 +27,18 @@
     <ClCompile Include="config\precompiled.cpp">
       <Filter>Source Files\config</Filter>
     </ClCompile>
+    <ClCompile Include="tests\vector_tests.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\precompiled.h">
+      <Filter>Source Files\config</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\vector_tests.h">
+      <Filter>Source Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="config\defines.h">
       <Filter>Source Files\config</Filter>
     </ClInclude>
   </ItemGroup>
