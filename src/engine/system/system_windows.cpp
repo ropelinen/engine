@@ -34,9 +34,45 @@ namespace
 
 		windows_to_close.clear();
 	}
-}
 
-pod_vector<HWND> *windows_to_close = NULL;
+	/* Could use a better implementation */
+	pod_vector<HWND> *windows_to_close = NULL;
+
+	LRESULT CALLBACK wnd_proc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
+	{
+		/* Unused parametres, can't get rid of these */
+		(void *)hwnd;
+		(void *)wparam;
+		(void *)lparam;
+
+		switch (umessage)
+		{
+		case WM_DESTROY:
+		{
+			/* We don't want to do anything as we manually destroy windows */
+			return 0;
+		}
+		case WM_CLOSE:
+		{
+			if (windows_to_close)
+			{
+				windows_to_close->push_back(hwnd);
+			}
+			else
+			{
+				/* TODO: Localization/Error number */
+				error_popup("Error closing a window", false);
+			}
+
+			return 0;
+		}
+		default:
+		{
+			return DefWindowProc(hwnd, umessage, wparam, lparam);
+		}
+		}
+	}
+}
 
 void init_system_data()
 {
@@ -60,41 +96,7 @@ void error_popup(const char *msg, const bool kill_program)
 		ExitProcess(~(UINT)0);
 }
 
-LRESULT CALLBACK wnd_proc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
-{
-	/* Unused parametres, can't get rid of these */
-	(void *)hwnd;
-	(void *)wparam;
-	(void *)lparam;
-
-	switch (umessage)
-	{
-		case WM_DESTROY:
-		{
-			/* We don't want to do anything as we manually destroy windows */
-			return 0;
-		}
-		case WM_CLOSE:
-		{
-			if (windows_to_close)
-			{
-				windows_to_close->push_back(hwnd);
-			}
-			else
-			{
-				/* TODO: Localization/Error number */
-				error_popup("Error closing a window", false);
-			}
-			
-			return 0;
-		}
-		default:
-		{
-			return DefWindowProc(hwnd, umessage, wparam, lparam);
-		}
-	}
-}
-
+/* TODO: Create a string class for the name */
 void create_window(const uint width, const uint height, const float pos_x, const float pos_y, const wchar_t *name, const bool fullscreen, window &out_wnd)
 {
 	int position_x = 0;
