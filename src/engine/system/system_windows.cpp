@@ -71,7 +71,7 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam
 	{
 		case WM_DESTROY:
 		{
-			/* We don't really care about these as we manually destroy windows */
+			/* We don't want to do anything as we manually destroy windows */
 			return 0;
 		}
 		case WM_CLOSE:
@@ -82,8 +82,8 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam
 			}
 			else
 			{
-				/* TODO: Post error/warning here, windows_to_close shouldn't be NULL */
-				PostQuitMessage(0);
+				/* TODO: Localization/Error number */
+				error_popup("Error closing a window", false);
 			}
 			
 			return 0;
@@ -128,6 +128,7 @@ void create_window(const uint width, const uint height, const float pos_x, const
 	// Register the window class.
 	if (RegisterClassEx(&wc) == 0)
 	{
+		/* TODO: Localization/Error number */
 		error_popup("Failed to register window class", true);
 	}
 
@@ -166,6 +167,7 @@ void create_window(const uint width, const uint height, const float pos_x, const
 
 	if (out_wnd.wnd->hwnd == NULL)
 	{
+		/* TODO: Localization/Error number */
 		error_popup("Failed to create a window", true);
 	}
 
