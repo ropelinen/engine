@@ -13,6 +13,44 @@ struct window_platform
 	LPCWSTR name;
 };
 
+/* Translation unit locals */
+namespace
+{
+	void close_windows(pod_vector<window> &windows, pod_vector<HWND> &windows_to_close)
+	{
+		for (auto window_to_close = windows_to_close.get_begin(); window_to_close != windows_to_close.get_end(); ++window_to_close)
+		{
+			for (auto window = windows.get_begin(); window != windows.get_end(); ++window)
+			{
+				if (*window_to_close == window->wnd->hwnd)
+				{
+					destroy_window(*window, false);
+					windows.remove_it(window);
+
+					break;
+				}
+			}
+		}
+
+		windows_to_close.clear();
+	}
+}
+
+pod_vector<HWND> *windows_to_close = NULL;
+
+void init_system_data()
+{
+	/* TODO: Memory manager */
+	windows_to_close = new pod_vector<HWND>(1);
+}
+
+void destroy_system_data()
+{
+	/* TODO: Memory manager */
+	if (windows_to_close)
+		delete windows_to_close;
+}
+
 void error_popup(const char *msg, const bool kill_program)
 {
 	dea_assert(msg && "error_popup: msg is NULL");
@@ -22,7 +60,6 @@ void error_popup(const char *msg, const bool kill_program)
 		ExitProcess(~(UINT)0);
 }
 
-/* Super tempy message handler */
 LRESULT CALLBACK wnd_proc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 {
 	/* Unused parametres, can't get rid of these */
@@ -34,12 +71,21 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam
 	{
 		case WM_DESTROY:
 		{
-			PostQuitMessage(0);
+			/* We don't really care about these as we manually destroy windows */
 			return 0;
 		}
 		case WM_CLOSE:
 		{
-			PostQuitMessage(0);
+			if (windows_to_close)
+			{
+				windows_to_close->push_back(hwnd);
+			}
+			else
+			{
+				/* TODO: Post error/warning here, windows_to_close shouldn't be NULL */
+				PostQuitMessage(0);
+			}
+			
 			return 0;
 		}
 		default:
@@ -153,7 +199,7 @@ void focus_window(window &wnd)
 	SetFocus(wnd.wnd->hwnd);
 }
 
-void run()
+void run(pod_vector<window> &windows)
 {
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
@@ -169,11 +215,18 @@ void run()
 
 		if (msg.message == WM_QUIT)
 		{
-			/* Closing any window will kill this, not good */
 			running = false;
 		}
 		else
 		{
+			if (windows_to_close && !windows_to_close->empty())
+			{
+				close_windows(windows, *windows_to_close);
+
+				if (windows.empty())
+					running = false;
+			}
+
 			/* Run frame */	
 		}
 	}
