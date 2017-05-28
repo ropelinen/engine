@@ -72,8 +72,9 @@ protected:
 	}
 };
 
-/* TODO: Small version */
-/* TODO: Small static version */
+/* Do I really want this as it will spam quite a lot of new classes? */
+/* TODO: Heap version */
+/* TODO: Heap static version */
 
 DEA_END()
 
