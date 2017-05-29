@@ -5,8 +5,6 @@
 
 DEA_START()
 
-/* TODO: Add static constructor option */
-
 template <typename T>
 class pod_vector : public byte_array
 {
@@ -15,14 +13,14 @@ public:
 	typedef const T* ConstIterator;
 
 public:
-	pod_vector(uint capacity = SMALLEST_AUTOMATIC_SIZE)
+	pod_vector(uint capacity = SMALLEST_AUTOMATIC_SIZE, bool is_static = false)
 		: byte_array()
 	{
 		/* If this triggers you should use a normal vector */
 		dea_is_pod_assert(T);
 
 		uintptr buffer = create_buffer(capacity, sizeof(T));
-		set_buffer(buffer, 0, capacity, false, false);
+		set_buffer(buffer, 0, capacity, false, is_static);
 	}
 
 	pod_vector(const pod_vector<T> &other)

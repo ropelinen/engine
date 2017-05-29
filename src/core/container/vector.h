@@ -7,8 +7,6 @@
 
 DEA_START()
 
-/* TODO: Add static constructor option */
-
 template <typename T>
 class vector : public byte_array
 {
@@ -17,7 +15,7 @@ public:
 	typedef const T* ConstIterator;
 
 public:
-	vector(const uint capacity = 4);
+	vector(const uint capacity = 4, bool is_static = false);
 	vector(const vector<T> &other);
 	~vector();
 

@@ -1,11 +1,11 @@
 template <typename T>
-vector<T>::vector(const uint capacity = 4)
+vector<T>::vector(const uint capacity = 4, bool is_static = false)
 {
 	/* If this triggers you should use pod_vector */
 	dea_is_not_pod_assert(T);
 
 	uintptr buffer = create_buffer(capacity, sizeof(T));
-	set_buffer(buffer, 0, capacity, false, false);
+	set_buffer(buffer, 0, capacity, false, is_static);
 }
 
 template <typename T>
@@ -339,6 +339,12 @@ void vector<T>::resize(uint new_size, const T &data)
 		old_it->~T();
 	}
 
+	while (old_it != old_end)
+	{
+		old_it->~T();
+		++old_it;
+	}
+	
 	if (old_size < new_size)
 	{
 		for (; it != get_end(); ++it)
