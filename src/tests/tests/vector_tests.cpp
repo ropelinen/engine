@@ -166,6 +166,27 @@ bool test_pod_vector()
 		RUN_TEST(test_pod[i] == test_pod_copy_2[i], "Copy test 4", result);
 	}
 
+	/* Static */
+	uint static_size = 4;
+	pod_vector<uint> test_pod_static(static_size, true);
+
+	for (uint i = 0; i < static_size; ++i)
+	{
+		test_pod_static.push_back(i);
+	}
+
+	RUN_TEST(test_pod_static.get_size() == static_size, "Static test 1", result);
+
+	/* Should assert */
+	//test_pod_static.push_back(1U);
+	//test_pod_static.resize(static_size * 2, 1U);
+	//test_pod_static.resize(static_size / 2, 1U);
+
+	while (!test_pod_static.empty())
+		test_pod_static.pop_back();
+
+	RUN_TEST(test_pod_static.empty(), "Static test 2", result);
+	
 	return result;
 }
 
@@ -373,6 +394,27 @@ bool test_vector()
 		RUN_TEST(test_vec[i] == test_vec_copy_2[i], "Copy test 4", result);
 	}
 
+	/* Static */
+	uint static_size = 4;
+	vector<non_pod> test_static(static_size, true);
+
+	for (uint i = 0; i < static_size; ++i)
+	{
+		test_static.push_back(non_pod((int)i));
+	}
+
+	RUN_TEST(test_static.get_size() == static_size, "Static test 1", result);
+
+	/* Should assert */
+	//test_static.push_back(non_pod(1));
+	//test_static.resize(static_size * 2, non_pod(1));
+	//test_static.resize(static_size / 2, non_pod(1));
+
+	while (!test_static.empty())
+		test_static.pop_back();
+
+	RUN_TEST(test_static.empty(), "Static test 2", result);
+	
 	return result;
 }
 
