@@ -46,6 +46,9 @@
     <ClInclude Include="container\pod_vector.h">
       <Filter>Source Files\container</Filter>
     </ClInclude>
+    <ClInclude Include="container\string.h">
+      <Filter>Source Files\container</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="config\precompiled.cpp">
@@ -58,6 +61,9 @@
       <Filter>Source Files\container</Filter>
     </ClCompile>
     <ClCompile Include="container\pod_vector.cpp">
+      <Filter>Source Files\container</Filter>
+    </ClCompile>
+    <ClCompile Include="container\string.cpp">
       <Filter>Source Files\container</Filter>
     </ClCompile>
   </ItemGroup>

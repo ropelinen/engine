@@ -33,6 +33,7 @@
     <ClInclude Include="config\precompiled.h" />
     <ClInclude Include="container\byte_array.h" />
     <ClInclude Include="container\pod_vector.h" />
+    <ClInclude Include="container\string.h" />
     <ClInclude Include="container\vector.h" />
     <ClInclude Include="system\assert.h" />
     <ClInclude Include="types\int_types.h" />
@@ -48,6 +49,7 @@
     </ClCompile>
     <ClCompile Include="container\byte_array.cpp" />
     <ClCompile Include="container\pod_vector.cpp" />
+    <ClCompile Include="container\string.cpp" />
     <ClCompile Include="container\vector.cpp" />
   </ItemGroup>
   <ItemGroup>
