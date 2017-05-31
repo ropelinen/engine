@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "tests/tests/vector_tests.h"
+#include "tests/tests/string_tests.h"
 
 DEA_START()
 
@@ -26,7 +27,10 @@ void run_tests()
 	RUN_TEST_CATEGORY(test_vector_iterator, "VECTOR ITERATOR", total_success);
 	END_TEST_CATEGORY();
 
+	START_TEST_CATEGORY("STRING");
+	RUN_TEST_CATEGORY(test_string, "STRING", total_success);
 	END_TEST_CATEGORY();
+	
 	if (total_success)
 		printf("ALL TEST SUCCEEDED!\n");
 	else

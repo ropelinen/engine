@@ -30,6 +30,9 @@
     <ClCompile Include="tests\vector_tests.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="tests\string_tests.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\precompiled.h">
@@ -40,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="config\defines.h">
       <Filter>Source Files\config</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\string_tests.h">
+      <Filter>Source Files\tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

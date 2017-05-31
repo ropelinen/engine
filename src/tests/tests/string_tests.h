@@ -1,0 +1,10 @@
+#ifndef DEA_TESTS_STRING_TESTS_H
+#define DEA_TESTS_STRING_TESTS_H
+
+DEA_START()
+
+bool test_string();
+
+DEA_END()
+
+#endif // DEA_TESTS_STRING_TESTS_H
