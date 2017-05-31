@@ -49,7 +49,7 @@ protected:
 	void destroy_buffer(uintptr buffer);
 	void create_and_replace_buffer(uint new_capacity, uint type_size);
 
-	void byte_move(const byte_array &other, uint type_size);
+	void byte_move(byte_array &other, uint type_size);
 	void byte_copy(const byte_array &other, uint type_size);
 
 	void byte_push_back(uint type_size, const char *data);

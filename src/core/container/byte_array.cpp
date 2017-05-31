@@ -95,7 +95,7 @@ void byte_array::create_and_replace_buffer(uint new_capacity, uint type_size)
 	set_buffer(new_buffer, size, new_capacity, false, false);
 }
 
-void byte_array::byte_move(const byte_array &other, uint type_size)
+void byte_array::byte_move(byte_array &other, uint type_size)
 {
 	dea_assert(!is_static() && !other.is_static() && "Trying to move to/from static array");
 
@@ -106,6 +106,10 @@ void byte_array::byte_move(const byte_array &other, uint type_size)
 		packed_ptr = other.packed_ptr;
 		size = other.size;
 		capacity = other.capacity;
+		
+		other.packed_ptr = 0;
+		other.size = 0;
+		other.capacity = 0;
 	}
 	else
 	{
