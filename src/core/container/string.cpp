@@ -17,6 +17,7 @@ string::string(const char *str)
 	: byte_array()
 {
 	dea_assert(str && "Trying to construct string from a NULL ptr");
+	
 	uint buf_len = (uint)strlen(str) + 1;
 	uintptr buffer = create_buffer(buf_len, sizeof(char));
 	set_buffer(buffer, buf_len, buf_len, false, false);
@@ -36,6 +37,33 @@ string::string(string &&other)
 
 string::~string()
 {
+}
+
+string &string::operator=(const char *str)
+{
+	dea_assert(str && "Trying to assing a NULL ptr");
+	
+	uint buf_len = (uint)strlen(str) + 1;
+	if (capacity < buf_len)
+	{
+		destroy_buffer(packed_ptr);
+		uintptr buffer = create_buffer(buf_len, sizeof(char));
+		set_buffer(buffer, buf_len, buf_len, false, false);
+	}
+	else
+		size = buf_len;
+
+	strcpy_s(get_byte_pointer(), buf_len, str);
+	return *this;
+}
+
+bool string::operator==(const string &other) const
+{
+	return strcmp(other.c_str(), c_str()) == 0;
+}
+bool string::operator==(const char *str) const
+{
+	return strcmp(c_str(), str) == 0;
 }
 
 DEA_END()
