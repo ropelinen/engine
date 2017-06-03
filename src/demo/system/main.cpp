@@ -21,8 +21,8 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE prev_instance, PSTR cmd_line, 
 	{
 		window temp;
 		windows.resize(2, temp);
-		create_window(1280, 720, 0.5f, 0.5f, L"Engine", fullscreen, windows[0]);
-		create_window(600, 400, 0.0f, 0.0f, L"Editor", fullscreen, windows[1]);
+		create_window(1280, 720, 0.5f, 0.5f, "Engine", fullscreen, windows[0]);
+		create_window(600, 400, 0.0f, 0.0f, "Editor", fullscreen, windows[1]);
 	}
 	focus_window(windows[0]);
 
