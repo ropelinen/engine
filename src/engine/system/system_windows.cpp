@@ -72,6 +72,17 @@ namespace
 		}
 		}
 	}
+
+	/* This function allocates the buffer, freeing it is up to the
+	 * caller */
+	WCHAR *string_to_wchar(const string &str)
+	{
+		int required_buf_size = MultiByteToWideChar(CP_ACP|CP_UTF8, 0, str.c_str(), -1, 0, 0);
+		/* TODO: Memory manager */
+		WCHAR *result = (WCHAR *)malloc(sizeof(WCHAR) * required_buf_size);
+		MultiByteToWideChar(CP_ACP|CP_UTF8, 0, str.c_str(), -1, result, required_buf_size);
+		return result;
+	}
 }
 
 void init_system_data()
