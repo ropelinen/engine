@@ -107,18 +107,20 @@ void error_popup(const char *msg, const bool kill_program)
 		ExitProcess(~(UINT)0);
 }
 
-/* TODO: Create a string class for the name */
-void create_window(const uint width, const uint height, const float pos_x, const float pos_y, const wchar_t *name, const bool fullscreen, window &out_wnd)
+void create_window(const uint width, const uint height, const float pos_x, const float pos_y, const string &name, const bool fullscreen, window &out_wnd)
 {
 	int position_x = 0;
 	int position_y = 0;
 
+	WCHAR *wname = string_to_wchar(name);
+	dea_assert(wname && "Failed to convert name to wide");
+	
 	HINSTANCE hinstance = GetModuleHandle(NULL);
 
 	/* TODO: Memory manager */
 	out_wnd.wnd = new window_platform;
 	out_wnd.wnd->hwnd = NULL;
-	out_wnd.wnd->name = name;
+	out_wnd.wnd->name = wname;
 	out_wnd.width = width;
 	out_wnd.height = height;
 
@@ -136,7 +138,7 @@ void create_window(const uint width, const uint height, const float pos_x, const
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = name;
+	wc.lpszClassName = wname;
 
 	// Register the window class.
 	if (RegisterClassEx(&wc) == 0)
@@ -168,8 +170,8 @@ void create_window(const uint width, const uint height, const float pos_x, const
 
 	// Create the window with the screen settings and get the handle to it.
 	out_wnd.wnd->hwnd = CreateWindowEx(exStyle,
-	                                  name,
-	                                  name,
+	                                  wname,
+	                                  wname,
 	                                  style,
 	                                  position_x, position_y, 
 	                                  (int)width, (int)height, 
@@ -198,7 +200,8 @@ void destroy_window(window &wnd, const bool fullscreen)
 
 	DestroyWindow(wnd.wnd->hwnd);
 	wnd.wnd->hwnd = NULL;
-
+	free((void *)wnd.wnd->name);
+	
 	HINSTANCE hinstance = GetModuleHandle(NULL);
 	UnregisterClass(wnd.wnd->name, hinstance);
 	hinstance = NULL;
