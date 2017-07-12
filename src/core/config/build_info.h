@@ -44,4 +44,14 @@
 #error Assert enabled macro not defined
 #endif
 
+#if (DEA_BUILD_TYPE == DEA_PRODUCTION)
+#define DEA_MEMORY_DEBUGGING DEA_FALSE
+#else
+#define DEA_MEMORY_DEBUGGING DEA_TRUE
+#endif
+
+#ifndef DEA_MEMORY_DEBUGGING
+#error Memory debugging macro not defined
+#endif
+
 #endif // DEA_CORE_BUILD_INFO_H
