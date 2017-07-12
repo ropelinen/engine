@@ -33,6 +33,9 @@
     <ClCompile Include="tests\string_tests.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="tests\memory_manager_tests.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\precompiled.h">
@@ -45,6 +48,9 @@
       <Filter>Source Files\config</Filter>
     </ClInclude>
     <ClInclude Include="tests\string_tests.h">
+      <Filter>Source Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\memory_manager_tests.h">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
   </ItemGroup>

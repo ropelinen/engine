@@ -283,12 +283,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tests\memory_manager_tests.cpp" />
     <ClCompile Include="tests\string_tests.cpp" />
     <ClCompile Include="tests\vector_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\defines.h" />
     <ClInclude Include="config\precompiled.h" />
+    <ClInclude Include="tests\memory_manager_tests.h" />
     <ClInclude Include="tests\string_tests.h" />
     <ClInclude Include="tests\vector_tests.h" />
   </ItemGroup>

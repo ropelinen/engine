@@ -2,8 +2,9 @@
 
 #include <stdlib.h>
 
-#include "tests/tests/vector_tests.h"
+#include "tests/tests/memory_manager_tests.h"
 #include "tests/tests/string_tests.h"
+#include "tests/tests/vector_tests.h"
 
 DEA_START()
 
@@ -29,6 +30,10 @@ void run_tests()
 
 	START_TEST_CATEGORY("STRING");
 	RUN_TEST_CATEGORY(test_string, "STRING", total_success);
+	END_TEST_CATEGORY();
+
+	START_TEST_CATEGORY("MEMORY MANAGER");
+	RUN_TEST_CATEGORY(test_memory_manager, "MEMORY MANAGER", total_success);
 	END_TEST_CATEGORY();
 	
 	if (total_success)
