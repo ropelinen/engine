@@ -36,6 +36,7 @@
     <ClInclude Include="container\string.h" />
     <ClInclude Include="container\vector.h" />
     <ClInclude Include="system\assert.h" />
+    <ClInclude Include="system\memory_manager.h" />
     <ClInclude Include="types\int_types.h" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +52,7 @@
     <ClCompile Include="container\pod_vector.cpp" />
     <ClCompile Include="container\string.cpp" />
     <ClCompile Include="container\vector.cpp" />
+    <ClCompile Include="system\memory_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="container\vector.inl" />
