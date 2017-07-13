@@ -86,7 +86,6 @@ void *memory_manager::get_memory(uint32 size)
 		{
 			if (blocks[i].size > total_size)
 			{
-				/* This has a bad habit of fragmenting the pool */
 				uint32 *mem = (uint32 *)(memory + blocks[i].offset);
 				*mem = total_size;
 				++mem;
@@ -152,12 +151,15 @@ void memory_manager::free_memory(void *ptr)
 	free_list *list = (free_list *)memory;
 	while (list->used_blocks == FREE_LIST_BLOCK_COUNT && list->next_list_offset != INVALID_OFFSET)
 		list = (free_list *)(memory + list->next_list_offset);
-
+	
 	if (list->used_blocks < FREE_LIST_BLOCK_COUNT)
 	{
+		/* Free to the front of the list to prevent fragmentation */
 		free_block_nfo *data = &list->data_start;
-		data[list->used_blocks].offset = (uint32)(fixed_ptr - memory);
-		data[list->used_blocks].size = size;
+		data[list->used_blocks].offset = data[0].offset;
+		data[list->used_blocks].size = data[0].size;
+		data[0].offset = (uint32)(fixed_ptr - memory);
+		data[0].size = size;
 		list->used_blocks += 1;
 	}
 	else
@@ -184,9 +186,14 @@ void memory_manager::free_memory(void *ptr)
 		}
 		else
 		{
+			/* Free to the end of the old list to prevent
+			 * fragmentation */
+			free_block_nfo *data = &list->data_start;
+			new_list->data_start.offset = data[FREE_LIST_BLOCK_COUNT - 1].offset;
+			new_list->data_start.size = data[FREE_LIST_BLOCK_COUNT - 1].size;
 			new_list->used_blocks = 1;
-			new_list->data_start.offset = (uint32)(fixed_ptr - memory);
-			new_list->data_start.size = size;
+			data[FREE_LIST_BLOCK_COUNT - 1].offset = (uint32)(fixed_ptr - memory);
+			data[FREE_LIST_BLOCK_COUNT - 1].size = size;
 		}
 	}
 }
