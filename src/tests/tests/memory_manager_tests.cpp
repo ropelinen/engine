@@ -8,7 +8,7 @@
 
 DEA_START()
 
-#define ALLOC_COUNT 10000
+#define ALLOC_COUNT 15000
 
 struct allocation
 {
@@ -54,7 +54,8 @@ bool test_memory_manager()
 
 	get_duration_micro(frequency, start_time, end_time, elapsed_microseconds_free);
 
-	uint32 manager_mem_size = ALLOC_COUNT * 512 + (ALLOC_COUNT * sizeof(uint64));
+	uint32 manager_mem_size = ALLOC_COUNT * 512;
+	manager_mem_size += manager_mem_size / 2;
 	void *manager_mem_block = malloc(manager_mem_size);
 	memory_manager manager(manager_mem_block, manager_mem_size);
 
