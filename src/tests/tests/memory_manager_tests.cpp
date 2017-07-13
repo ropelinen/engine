@@ -57,30 +57,70 @@ bool test_memory_manager()
 	uint32 manager_mem_size = ALLOC_COUNT * 512;
 	manager_mem_size += manager_mem_size / 2;
 	void *manager_mem_block = malloc(manager_mem_size);
-	memory_manager manager(manager_mem_block, manager_mem_size);
 
-	LARGE_INTEGER elapsed_microseconds_get_mem;
-	QueryPerformanceCounter(&start_time);
-	for (uint i = 0; i < ALLOC_COUNT; ++i)
 	{
-		allocs[i].mem = manager.get_memory(512);
+		memory_manager manager(manager_mem_block, manager_mem_size);
+
+		LARGE_INTEGER elapsed_microseconds_get_mem;
+		QueryPerformanceCounter(&start_time);
+		for (uint i = 0; i < ALLOC_COUNT; ++i)
+		{
+			allocs[i].mem = manager.get_memory(512);
+		}
+		QueryPerformanceCounter(&end_time);
+
+		get_duration_micro(frequency, start_time, end_time, elapsed_microseconds_get_mem);
+
+		LARGE_INTEGER elapsed_microseconds_free_mem;
+		QueryPerformanceCounter(&start_time);
+		for (uint i = 0; i < ALLOC_COUNT; ++i)
+		{
+			manager.free_memory(allocs[i].mem);
+		}
+		QueryPerformanceCounter(&end_time);
+
+		get_duration_micro(frequency, start_time, end_time, elapsed_microseconds_free_mem);
+
+		RUN_TEST(elapsed_microseconds_malloc.QuadPart >= elapsed_microseconds_get_mem.QuadPart, "Allocate speed test 1", result);
+		printf("--malloc: %lld, get_mem: %lld\n", elapsed_microseconds_malloc.QuadPart, elapsed_microseconds_get_mem.QuadPart);
+
+		RUN_TEST(elapsed_microseconds_free.QuadPart >= elapsed_microseconds_free_mem.QuadPart, "Free speed test 1", result);
+		printf("--free: %lld, free_mem: %lld\n", elapsed_microseconds_free.QuadPart, elapsed_microseconds_free_mem.QuadPart);
 	}
-	QueryPerformanceCounter(&end_time);
 
-	get_duration_micro(frequency, start_time, end_time, elapsed_microseconds_get_mem);
-
-	LARGE_INTEGER elapsed_microseconds_free_mem;
-	QueryPerformanceCounter(&start_time);
-	for (uint i = 0; i < ALLOC_COUNT; ++i)
 	{
-		manager.free_memory(allocs[i].mem);
-	}
-	QueryPerformanceCounter(&end_time);
+		memory_manager manager(manager_mem_block, manager_mem_size);
 
-	get_duration_micro(frequency, start_time, end_time, elapsed_microseconds_free_mem);
+		LARGE_INTEGER elapsed_microseconds_default;
+		QueryPerformanceCounter(&start_time);
+		for (uint loop = 0; loop < 5; ++loop)
+		{
+			for (uint i = 0; i < ALLOC_COUNT; ++i)
+				allocs[i].mem = malloc(512);
+
+			for (uint i = 0; i < ALLOC_COUNT; ++i)
+				free(allocs[i].mem);
+		}
+		QueryPerformanceCounter(&end_time);
+		get_duration_micro(frequency, start_time, end_time, elapsed_microseconds_default);
+
+		LARGE_INTEGER elapsed_microseconds_manager;
+		QueryPerformanceCounter(&start_time);
+		for (uint loop = 0; loop < 5; ++loop)
+		{
+			for (uint i = 0; i < ALLOC_COUNT; ++i)
+				allocs[i].mem = manager.get_memory(512);
+
+			for (uint i = 0; i < ALLOC_COUNT; ++i)
+				manager.free_memory(allocs[i].mem);
+		}
+		QueryPerformanceCounter(&end_time);
+		get_duration_micro(frequency, start_time, end_time, elapsed_microseconds_manager);
+
+		RUN_TEST(elapsed_microseconds_manager.QuadPart < elapsed_microseconds_default.QuadPart, "Total speed test 1", result);
+		printf("--default: %lld, manager: %lld\n", elapsed_microseconds_default.QuadPart, elapsed_microseconds_manager.QuadPart);
+    }
 	
-	printf("malloc: %lld, free: %lld\n", elapsed_microseconds_malloc.QuadPart, elapsed_microseconds_free.QuadPart);
-	printf("get_mem: %lld, free_mem: %lld\n", elapsed_microseconds_get_mem.QuadPart, elapsed_microseconds_free_mem.QuadPart);
 	free(manager_mem_block);
 
 	return result;
