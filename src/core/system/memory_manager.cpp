@@ -5,6 +5,12 @@
 
 DEA_START()
 
+#if DEA_BUILD_TYPE == DEA_DEBUG
+#define OVERWRITE_TEST 1
+#endif
+#define ALLOCATED_BYTE 0xA1
+#define FREE_BYTE 0xFE
+
 static const uint32 FREE_LIST_BLOCK_COUNT = 10000;
 static const uint32 INVALID_OFFSET = 0xFFFFFFFF;
 	
@@ -48,6 +54,11 @@ memory_manager::memory_manager(void *memory, uint32 size, void *debug_memory)
 	
 	list->data_start.offset = free_list_size;
 	list->data_start.size = size - free_list_size;
+
+#ifdef OVERWRITE_TEST
+	void *mem = (void *)(this->memory + free_list_size);
+	memset(mem, FREE_BYTE, size - free_list_size);
+#endif
 	
 #if DEA_MEMORY_DEBUGGING == DEA_FALSE
 	(debug_data *)debug_memory;
@@ -92,6 +103,14 @@ void *memory_manager::get_memory(uint32 size)
 				
 				blocks[i].size -= total_size;
 				blocks[i].offset += total_size;
+
+#ifdef OVERWRITE_TEST
+				uint8 *mem_bytes = (uint8 *)mem;
+				for (uint byte = 0; byte < size; ++byte)
+					dea_assert(mem_bytes[byte] == FREE_BYTE && "Allocating already allocated memory");
+
+				memset(mem_bytes, ALLOCATED_BYTE, size);
+#endif
 				return mem;
 			}
 			else if (blocks[i].size == total_size)
@@ -122,7 +141,13 @@ void *memory_manager::get_memory(uint32 size)
 					free_block_nfo *last_data = &last_list->data_start;
 					blocks[i] = last_data[last_list->used_blocks];
 				}
+#ifdef OVERWRITE_TEST
+				uint8 *mem_bytes = (uint8 *)mem;
+				for (uint byte = 0; byte < size; ++byte)
+					dea_assert(mem_bytes[byte] == FREE_BYTE && "Allocating already allocated memory");
 				
+				memset(mem_bytes, ALLOCATED_BYTE, size);
+#endif
 				return mem;
 			}
 		}
@@ -148,6 +173,10 @@ void memory_manager::free_memory(void *ptr)
 	uintptr fixed_ptr = (uintptr)ptr - sizeof(uint32);
 	uint32 size = *((uint32 *)fixed_ptr);
 
+#ifdef OVERWRITE_TEST
+	memset((void *)fixed_ptr, FREE_BYTE, size);
+#endif
+	
 	free_list *list = (free_list *)memory;
 	while (list->used_blocks == FREE_LIST_BLOCK_COUNT && list->next_list_offset != INVALID_OFFSET)
 		list = (free_list *)(memory + list->next_list_offset);
@@ -211,5 +240,7 @@ uint32 memory_manager::get_debug_data_size() const
 	return 0;
 #endif
 }
+
+#undef OVERWRITE_TEST
 
 DEA_END()
