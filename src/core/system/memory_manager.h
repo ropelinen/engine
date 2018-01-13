@@ -20,6 +20,7 @@ private:
 	uintptr memory;
 	void *debug_memory;
 	uint32 memory_amount;
+	uint32 free_list_offset;
 };
 
 DEA_END()

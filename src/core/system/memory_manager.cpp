@@ -8,10 +8,11 @@ DEA_START()
 #if DEA_BUILD_TYPE == DEA_DEBUG
 #define OVERWRITE_TEST 1
 #endif
+
 #define ALLOCATED_BYTE 0xA1
 #define FREE_BYTE 0xFE
 
-static const uint32 FREE_LIST_BLOCK_COUNT = 10000;
+static const uint32 FREE_LIST_DEFAULT_BLOCK_COUNT = 10000;
 static const uint32 INVALID_OFFSET = 0xFFFFFFFF;
 	
 struct debug_data
@@ -29,10 +30,9 @@ struct free_block_nfo
 	uint32 size;
 };
 
-/* The first free list will be at the start of the memory */
 struct free_list
 {
-	uint32 next_list_offset;
+	uint32 block_count;
 	uint32 used_blocks;
 	free_block_nfo data_start;
 };
@@ -45,11 +45,12 @@ memory_manager::memory_manager(void *memory, uint32 size, void *debug_memory)
 
 	this->memory = (uintptr)memory;
 	memory_amount = size;
-
+	free_list_offset = 0;
+	
 	free_list *list = (free_list *)memory;
-	list->next_list_offset = INVALID_OFFSET;
+	list->block_count = FREE_LIST_DEFAULT_BLOCK_COUNT;
 	list->used_blocks = 1;
-	uint32 free_list_size = sizeof(free_list) + sizeof(free_block_nfo) * (FREE_LIST_BLOCK_COUNT - 1);
+	uint32 free_list_size = sizeof(free_list) + sizeof(free_block_nfo) * (FREE_LIST_DEFAULT_BLOCK_COUNT - 1);
 	dea_assert(free_list_size < size && "Free list is larger than size of memory, can't create so small managers");
 	
 	list->data_start.offset = free_list_size;
@@ -64,6 +65,7 @@ memory_manager::memory_manager(void *memory, uint32 size, void *debug_memory)
 	(debug_data *)debug_memory;
 	this->debug_memory = NULL;
 #else
+	
 	debug_data *debug_mem = (debug_data *)debug_memory;
 	this->debug_memory = debug_mem;
 	if (debug_mem)
@@ -84,13 +86,10 @@ memory_manager::~memory_manager()
 
 void *memory_manager::get_memory(uint32 size)
 {
-	uint32 free_list_offset = 0;
 	uint32 total_size = size + sizeof(uint32);
 	
-	while (free_list_offset != INVALID_OFFSET)
 	{
 		free_list *list = (free_list *)(memory + free_list_offset);
-		free_list_offset = list->next_list_offset;
 
 		free_block_nfo *blocks = &list->data_start;
 		for (uint32 i = 0; i < list->used_blocks; ++i)
@@ -119,28 +118,9 @@ void *memory_manager::get_memory(uint32 size)
 				*mem = total_size;
 				++mem;
 				
-				if (free_list_offset == INVALID_OFFSET)
-				{
-					list->used_blocks -= 1;
-					blocks[i] = blocks[list->used_blocks];
-				}
-				else
-				{
-					free_list *last_list = list;
-					while (last_list->used_blocks == FREE_LIST_BLOCK_COUNT && last_list->next_list_offset != INVALID_OFFSET)
-					{
-						free_list *next_list = (free_list *)(memory + last_list->next_list_offset);
-						if (next_list->used_blocks == 0)
-							break;
-						
-						last_list = next_list;
-					}
-
-					dea_assert(last_list->used_blocks && "No used blocks, something went wrong");
-					last_list->used_blocks -= 1;
-					free_block_nfo *last_data = &last_list->data_start;
-					blocks[i] = last_data[last_list->used_blocks];
-				}
+				list->used_blocks -= 1;
+				blocks[i] = blocks[list->used_blocks];
+	
 #ifdef OVERWRITE_TEST
 				uint8 *mem_bytes = (uint8 *)mem;
 				for (uint byte = 0; byte < size; ++byte)
@@ -177,11 +157,9 @@ void memory_manager::free_memory(void *ptr)
 	memset((void *)fixed_ptr, FREE_BYTE, size);
 #endif
 	
-	free_list *list = (free_list *)memory;
-	while (list->used_blocks == FREE_LIST_BLOCK_COUNT && list->next_list_offset != INVALID_OFFSET)
-		list = (free_list *)(memory + list->next_list_offset);
+	free_list *list = (free_list *)(memory + free_list_offset);
 	
-	if (list->used_blocks < FREE_LIST_BLOCK_COUNT)
+	if (list->used_blocks < list->block_count)
 	{
 		/* Free to the front of the list to prevent fragmentation */
 		free_block_nfo *data = &list->data_start;
@@ -194,7 +172,8 @@ void memory_manager::free_memory(void *ptr)
 	else
 	{
 		/* Allocate new free list */
-		uint32 free_list_size = sizeof(free_list) + sizeof(free_block_nfo) * (FREE_LIST_BLOCK_COUNT - 1);
+		uint32 new_block_count = (uint32)(list->block_count * 1.5f);
+		uint32 free_list_size = sizeof(free_list) + sizeof(free_block_nfo) * (new_block_count - 1);
 		free_list *new_list = (free_list *)get_memory(free_list_size);
 
 		if (!new_list)
@@ -203,27 +182,25 @@ void memory_manager::free_memory(void *ptr)
 			return;
 		}
 
-		list->next_list_offset = (uint32)((uintptr)new_list - memory);
-		new_list->next_list_offset = INVALID_OFFSET;
-		if (list->used_blocks < FREE_LIST_BLOCK_COUNT)
-		{
-			new_list->used_blocks = 0;
-			free_block_nfo *data = &list->data_start;
-			data[list->used_blocks].offset = (uint32)(fixed_ptr - memory);
-			data[list->used_blocks].size = size;
-			list->used_blocks += 1;
-		}
-		else
-		{
-			/* Free to the end of the old list to prevent
-			 * fragmentation */
-			free_block_nfo *data = &list->data_start;
-			new_list->data_start.offset = data[FREE_LIST_BLOCK_COUNT - 1].offset;
-			new_list->data_start.size = data[FREE_LIST_BLOCK_COUNT - 1].size;
-			new_list->used_blocks = 1;
-			data[FREE_LIST_BLOCK_COUNT - 1].offset = (uint32)(fixed_ptr - memory);
-			data[FREE_LIST_BLOCK_COUNT - 1].size = size;
-		}
+		free_list_offset = (uint32)((uintptr)new_list - memory);
+		new_list->block_count = new_block_count;
+		new_list->used_blocks = list->used_blocks;
+		memcpy(&new_list->data_start, &list->data_start, list->used_blocks * sizeof(free_block_nfo));
+
+		free_block_nfo *data = &new_list->data_start;
+		data[new_list->used_blocks].offset = (uint32)((uintptr)list - memory);
+		data[new_list->used_blocks].size = sizeof(free_list) + sizeof(free_block_nfo) * (list->block_count - 1);
+		new_list->used_blocks += 1;
+#ifdef OVERWRITE_TEST
+		memset((void *)list, FREE_BYTE, data[new_list->used_blocks - 1].size);
+#endif
+
+		/* Free to the front of the list to prevent fragmentation */
+		data[new_list->used_blocks].offset = data[0].offset;
+		data[new_list->used_blocks].size = data[0].size;
+		data[0].offset = (uint32)(fixed_ptr - memory);
+		data[0].size = size;
+		new_list->used_blocks += 1;
 	}
 }
 
